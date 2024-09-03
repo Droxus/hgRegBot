@@ -1,4 +1,9 @@
-const startMsg = `
+require("dotenv").config();
+
+const LINK = "https://www.wikipedia.org/";
+
+const CONSTANT = {
+  START_MSG: `
 [EN] Bot allowing to make an appointment for submitting documents
 for temporary residence in Mazowieckie Voivodeship (Warsaw)
 Registration is currently scheduled for mid-October 
@@ -31,10 +36,9 @@ Koszt pełnego wsparcia Twojej sprawy od 1500 zł
 Стоимость записи при наличии заполненых внесков 50 злотых 
 Стоимость записи вместе с заполнением внесков 100 злотых
 Стоимость полного сопровождения вашего дела от 1500 злотых
-`;
-
-require("dotenv").config();
-
+`,
+  HELP_MSG: `Click button to run the app: `,
+};
 const TelegramBot = require("node-telegram-bot-api");
 
 // Replace 'YOUR_TOKEN' with your actual bot token
@@ -46,13 +50,39 @@ const bot = new TelegramBot(token, { polling: true });
 // Command to start the bot
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, startMsg);
+  const languageCode = msg.from.language_code;
+
+  console.log(languageCode);
+  // bot.sendMessage(chatId, CONSTANT.START_MSG);
+  bot.sendMessage(chatId, CONSTANT.START_MSG, {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "Launch App",
+            web_app: { url: LINK }, // Replace with your web app URL
+          },
+        ],
+      ],
+    },
+  });
 });
 
 // Command to help the user
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "Send me any text and I will echo it back to you.");
+  bot.sendMessage(chatId, CONSTANT.HELP_MSG, {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "Launch App",
+            web_app: { url: LINK }, // Replace with your web app URL
+          },
+        ],
+      ],
+    },
+  });
 });
 
 // Echo any text messages
