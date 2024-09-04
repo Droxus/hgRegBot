@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const LINK = "https://droxus.github.io/hgRegWeb/";
+const LINK = "https://hadgroup.web.app/";
 
 const CONSTANT = {
   START_MSG: `
