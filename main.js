@@ -4,29 +4,7 @@ const LINK = "https://hadgroup.web.app/";
 
 const CONSTANT = {
   START_MSG: `
-[EN] Bot allowing to make an appointment for submitting documents
-for temporary residence in Mazowieckie Voivodeship (Warsaw)
-Registration is currently scheduled for mid-October 
-(date is updated every week - for one week)
-More than 800 appointments per week
-Payment only post factum (after receiving the registration date)
-
-The cost of an appointment with completed forms is 50 PLN
-The cost of an appointment together with filling in forms is 100 PLN
-The cost of full support of your case from 1500 PLN
-
-[PL] Bot umożliwiający umówienie się na złożenie dokumentów na
- pobyt czasowy w województwie mazowieckim (Warszawa)
-Rejestracja jest obecnie zaplanowana na połowę października 
-(data aktualizowana co tydzień - na tydzień)
-Ponad 800 wizyt tygodniowo
-Płatność tylko post factum (po otrzymaniu daty rejestracji)
-
-Koszt wizyty z wypełnionymi formularzami to 50 zł
-Koszt wizyty wraz z wypełnieniem formularzy to 100 zł
-Koszt pełnego wsparcia Twojej sprawy od 1500 zł
-
-[RU] Бот позволяющий осуществить запись на подачу документов на 
+Бот позволяющий осуществить запись на подачу документов на 
 временный побыт в Мазовецком Воевудстве (Варшава)
 Регистрация, на данный момент, проходит на середину октября 
 (дата обновляется каждую неделю - на одну неделю)
