@@ -32,5 +32,5 @@ bot.on("message", (msg) => {
 
 const PORT = process.env.PORT || 3006;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port: ${PORT}`);
 });
