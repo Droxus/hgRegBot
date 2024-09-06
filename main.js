@@ -14,30 +14,29 @@ const CONSTANT = {
 Стоимость записи при наличии заполненых внесков 50 злотых 
 Стоимость записи вместе с заполнением внесков 100 злотых
 Стоимость полного сопровождения вашего дела от 1500 злотых
+
+(Нажмите на кнопку снизу, чтобы сделать запись или связаться с нами)
 `,
-  HELP_MSG: `Click button to run the app: `,
+  HELP_MSG: `Нажмите на кнопку снизу, чтобы сделать запись или связаться с нами`,
 };
+
+const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
-// Replace 'YOUR_TOKEN' with your actual bot token
+const app = express();
 const token = process.env.TELEGRAM_BOT_TOKEN;
-
-// Create a new bot instance
 const bot = new TelegramBot(token, { polling: true });
 
-// Command to start the bot
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const languageCode = msg.from.language_code;
-
+  const languageCode = msg.from.language_code; // language code
   console.log(languageCode);
-  // bot.sendMessage(chatId, CONSTANT.START_MSG);
   bot.sendMessage(chatId, CONSTANT.START_MSG, {
     reply_markup: {
       inline_keyboard: [
         [
           {
-            text: "Launch App",
+            text: "Сделать запись",
             web_app: { url: LINK }, // Replace with your web app URL
           },
         ],
@@ -54,7 +53,7 @@ bot.onText(/\/help/, (msg) => {
       inline_keyboard: [
         [
           {
-            text: "Launch App",
+            text: "Сделать запись",
             web_app: { url: LINK }, // Replace with your web app URL
           },
         ],
@@ -70,6 +69,23 @@ bot.on("message", (msg) => {
     msg.text.toLowerCase() !== "/start" &&
     msg.text.toLowerCase() !== "/help"
   ) {
-    bot.sendMessage(chatId, msg.text);
+    bot.sendMessage(chatId, CONSTANT.HELP_MSG, {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "Сделать запись",
+              web_app: { url: LINK }, // Replace with your web app URL
+            },
+          ],
+        ],
+      },
+    });
   }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
