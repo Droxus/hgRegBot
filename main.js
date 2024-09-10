@@ -16,8 +16,8 @@ app.use(express.json());
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://hadgroup.web.app/",
-  "https://hadgroup-admin.web.app/",
+  "https://hadgroup.web.app",
+  "https://hadgroup-admin.web.app",
 ];
 
 app.use(
@@ -29,6 +29,8 @@ app.use(
         callback(new Error("Not allowed by CORS")); // Deny the origin
       }
     },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Specify allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
   })
 );
 
