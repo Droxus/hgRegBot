@@ -26,7 +26,7 @@ const CONSTANT = {
         [
           {
             text: "Сделать запись",
-            web_app: { url: "https://hadgroup.web.app/" },
+            web_app: { url: "https://karta-pobytu-rejestracja.web.app/" },
           },
         ],
       ],
