@@ -16,7 +16,7 @@ app.use(express.json());
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://hadgroup.web.app",
+  "https://karta-pobytu-rejestracja.web.app/",
   "https://hadgroup-admin.web.app",
 ];
 
