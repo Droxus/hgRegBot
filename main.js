@@ -1,36 +1,64 @@
 require("dotenv").config();
 
 const express = require("express");
-const TelegramBot = require("node-telegram-bot-api");
-const CONSTANT = require("./constants");
+const helmet = require("helmet");
+const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 
+const ClientMiniAppBot = require("./clientMiniAppBot");
+const MiniAppDB = require("./miniAppDB");
+
+// Initialize the app
 const app = express();
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const bot = new TelegramBot(token, { polling: true });
 
-bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-  const userInfo = {
-    date: new Date(msg.date * 1000),
-    contact: msg.contact,
-    location: msg.location,
-  };
-  const userData = Object.assign({}, msg.from, userInfo);
-  console.log(JSON.stringify(userData, null, 2));
-  bot.sendMessage(chatId, CONSTANT.MSG.START, CONSTANT.APP_BTN);
-});
+// Middleware to parse JSON
+app.use(express.json());
 
-bot.onText(/\/help/, (msg) =>
-  bot.sendMessage(msg.chat.id, CONSTANT.MSG.HELP, CONSTANT.APP_BTN)
+// CORS Configuration
+const allowedOrigins = [
+  "https://hadgroup.web.app/",
+  "https://hadgroup-admin.web.app/",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true); // Allow the origin
+      } else {
+        callback(new Error("Not allowed by CORS")); // Deny the origin
+      }
+    },
+  })
 );
 
-const commands = ["/start", "/help"];
-bot.on("message", (msg) => {
-  if (!commands.find((e) => e == msg.text.toLowerCase()))
-    bot.sendMessage(msg.chat.id, CONSTANT.MSG.HELP, CONSTANT.APP_BTN);
+// app.use((req, res, next) => {
+//   const origin = req.headers.origin;
+//   const referer = req.headers.referer;
+//   console.log(origin);
+
+//   if (allowedOrigins.includes(origin) || allowedOrigins.includes(referer)) {
+//     next(); // Allow the request
+//   } else {
+//     res.status(403).send("Not allowed by server-side policy");
+//   }
+// });
+
+// Secure HTTP headers using Helmet
+app.use(helmet());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 
-const PORT = process.env.PORT || 3010;
+app.use(limiter);
+
+const clientMiniAppBot = new ClientMiniAppBot();
+const miniAppDB = new MiniAppDB(app);
+
+const PORT = process.env.PORT || 3031;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
