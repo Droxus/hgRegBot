@@ -7,12 +7,15 @@ const rateLimit = require("express-rate-limit");
 
 const ClientMiniAppBot = require("./clientMiniAppBot");
 const MiniAppDB = require("./miniAppDB");
+const NewClientDetecter = require("./newClientDetecter");
 
 // Initialize the app
 const app = express();
 
 // Middleware to parse JSON
 app.use(express.json());
+
+// app.use(cors({ origin: "*" }));
 
 // CORS Configuration
 const allowedOrigins = [
@@ -58,9 +61,10 @@ const limiter = rateLimit({
 app.use(limiter);
 
 const clientMiniAppBot = new ClientMiniAppBot();
-const miniAppDB = new MiniAppDB(app);
+const newClientDetecter = new NewClientDetecter();
+const miniAppDB = new MiniAppDB(app, newClientDetecter);
 
-const PORT = process.env.PORT || 3031;
+const PORT = process.env.PORT || 3155;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
