@@ -15,6 +15,9 @@ const app = express();
 // Middleware to parse JSON
 app.use(express.json());
 
+// Trust the first proxy (e.g., Heroku)
+app.set("trust proxy", 1);
+
 // app.use(cors({ origin: "*" }));
 
 // CORS Configuration
@@ -37,25 +40,26 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   const origin = req.headers.origin;
-//   const referer = req.headers.referer;
-//   console.log(origin);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const referer = req.headers.referer;
+  console.log(origin);
 
-//   if (allowedOrigins.includes(origin) || allowedOrigins.includes(referer)) {
-//     next(); // Allow the request
-//   } else {
-//     res.status(403).send("Not allowed by server-side policy");
-//   }
-// });
+  if (allowedOrigins.includes(origin) || allowedOrigins.includes(referer)) {
+    next(); // Allow the request
+  } else {
+    res.status(403).send("Not allowed by server-side policy");
+  }
+});
 
 // Secure HTTP headers using Helmet
 app.use(helmet());
 
-// Rate limiting
+// Apply rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
 });
 
 app.use(limiter);
