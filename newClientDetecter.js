@@ -5,14 +5,6 @@ class NewClientDetecter {
   constructor() {
     this._token = process.env.TELEGRAM_BOT_DETECTOR_TOKEN;
     this._bot = new TelegramBot(this.token, { polling: true });
-
-    this.onCommands();
-  }
-
-  onCommands() {
-    this.bot.on("message", (msg) => {
-      console.log(msg.chat.id); // This will log the chat ID of the group
-    });
   }
 
   sendMessage = (msg) => {
