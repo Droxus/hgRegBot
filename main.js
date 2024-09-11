@@ -37,17 +37,17 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  const referer = req.headers.referer;
-  console.log(origin);
+// app.use((req, res, next) => {
+//   const origin = req.headers.origin;
+//   const referer = req.headers.referer;
+//   console.log(origin);
 
-  if (allowedOrigins.includes(origin) || allowedOrigins.includes(referer)) {
-    next(); // Allow the request
-  } else {
-    res.status(403).send("Not allowed by server-side policy");
-  }
-});
+//   if (allowedOrigins.includes(origin) || allowedOrigins.includes(referer)) {
+//     next(); // Allow the request
+//   } else {
+//     res.status(403).send("Not allowed by server-side policy");
+//   }
+// });
 
 // Secure HTTP headers using Helmet
 app.use(helmet());
