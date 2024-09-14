@@ -24,7 +24,7 @@ class ClientMiniAppBot {
     };
     const userData = Object.assign({}, msg.from, userInfo);
     console.log(JSON.stringify(userData, null, 2));
-    this.bot.sendMessage(chatId, CONSTANT.MSG.START, CONSTANT.APP_BTN);
+    this.bot.sendMessage(chatId, CONSTANT.MSG.START(), CONSTANT.APP_BTN);
   };
 
   onHelp = (msg) => {

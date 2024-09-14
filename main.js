@@ -68,7 +68,7 @@ const clientMiniAppBot = new ClientMiniAppBot();
 const newClientDetecter = new NewClientDetecter();
 const miniAppDB = new MiniAppDB(app, newClientDetecter);
 
-const PORT = process.env.PORT || 3155;
+const PORT = process.env.PORT || 3156;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
