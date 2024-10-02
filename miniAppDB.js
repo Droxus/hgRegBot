@@ -76,7 +76,7 @@ class MiniAppDB {
         const docRef = this.db.collection("Data").doc();
         const data = Object.assign({}, req.body, {
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
-          orderId: generateOrderId(req.body.email),
+          orderId: this.generateOrderId(req.body.email),
         });
         console.log(data.orderId);
         await docRef.set(data);
