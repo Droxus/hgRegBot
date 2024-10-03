@@ -84,7 +84,12 @@ class MiniAppDB {
         res.status(200).json({ message: "Data saved successfully!" });
         this.sendAdminEmail(data);
         console.log(data);
-        this.sendUserEmail(data.email, data.orderId, data.service);
+        this.sendUserEmail(
+          data.email,
+          data.orderId,
+          data.service,
+          data.name + data.surname
+        );
         if (data.service !== "Basic" && data.service !== "Advanced") {
           const services = {
             Basic: "Временный побыт, Только запись",
@@ -111,7 +116,7 @@ ${JSON.stringify(data, null, 2)}
     });
   }
 
-  sendUserEmail(email, orderId, service) {
+  sendUserEmail(email, orderId, service, name) {
     console.log(email);
     console.log(orderId);
     const transporter = nodemailer.createTransport({
@@ -122,9 +127,9 @@ ${JSON.stringify(data, null, 2)}
       },
     });
 
-    const CancelationLink = `https://karta-pobytu-rejestracja.web.app/cancelorder?=${orderId}`;
-    const msg1 = `Спасибо! <br>Ваш заказ принят, дата записи будет известна не позднее следующей пятницы. Данные подачи будут отправлены  вам на ваш адрес имейл вместе с фактурой для оплаты. <br>Перейдите по ссылке чтобы отменить запись: ${CancelationLink}`;
-    const msg2 = `Спасибо!<br>Ваш заказ принят, дата записи будет известна не позднее следующей пятницы. Данные подачи будут отправлены  вам на ваш адрес имейл вместе с фактурой для оплаты.<br>Наши юристы свяжутся с вами в течении 15 минут. <br>Перейдите по ссылке чтобы отменить запись: ${CancelationLink}`;
+    const CancelationLink = `https://karta-pobytu-rejestracja.web.app/?cancelorderid=${orderId}`;
+    const msg1 = `Уважаемый ${name}<br>Спасибо! <br>Ваш заказ принят, дата записи будет известна не позднее следующей пятницы. Данные подачи будут отправлены  вам на ваш адрес имейл вместе с фактурой для оплаты. <br>Перейдите по ссылке чтобы отменить запись: ${CancelationLink}`;
+    const msg2 = `Уважаемый ${name}<br>Спасибо!<br>Ваш заказ принят, дата записи будет известна не позднее следующей пятницы. Данные подачи будут отправлены  вам на ваш адрес имейл вместе с фактурой для оплаты.<br>Наши юристы свяжутся с вами в течении 15 минут. <br>Перейдите по ссылке чтобы отменить запись: ${CancelationLink}`;
     const msg = service !== "Basic" && service !== "Advanced" ? msg2 : msg1;
 
     const mailOptions = {
