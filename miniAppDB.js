@@ -88,7 +88,7 @@ class MiniAppDB {
           data.email,
           data.orderId,
           data.service,
-          data.name + " " + data.surname
+          data.name + " " + data.surname + ","
         );
         if (data.service !== "Basic" && data.service !== "Advanced") {
           const services = {
